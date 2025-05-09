@@ -1,8 +1,8 @@
-// Utility functions for managing note access logs
+
 
 const ACCESS_LOG_KEY = 'vaultnote-access-logs';
 
-// Get browser/device info
+
 const getDeviceInfo = () => {
   const userAgent = navigator.userAgent;
   let deviceInfo = 'Unknown Device';
@@ -19,7 +19,7 @@ const getDeviceInfo = () => {
     deviceInfo = 'Linux';
   }
 
-  // Add browser info
+  
   if (/Chrome/.test(userAgent)) {
     deviceInfo += ' - Chrome';
   } else if (/Firefox/.test(userAgent)) {
@@ -33,32 +33,32 @@ const getDeviceInfo = () => {
   return deviceInfo;
 };
 
-// Add a log entry for note access
+
 export const logNoteAccess = (noteId, action) => {
   try {
-    // Get existing logs
+    
     const existingLogsJSON = localStorage.getItem(ACCESS_LOG_KEY);
     const existingLogs = existingLogsJSON ? JSON.parse(existingLogsJSON) : {};
     
-    // Initialize logs for this note if they don't exist
+    
     if (!existingLogs[noteId]) {
       existingLogs[noteId] = [];
     }
     
-    // Create new log entry
+    
     const logEntry = {
       timestamp: new Date().toISOString(),
-      action: action, // 'viewed', 'modified', 'created', 'encrypted', 'decrypted'
+      action: action, 
       deviceInfo: getDeviceInfo()
     };
     
-    // Add log entry (limit to last 100 entries per note to avoid storage issues)
+    
     existingLogs[noteId].unshift(logEntry);
     if (existingLogs[noteId].length > 100) {
       existingLogs[noteId] = existingLogs[noteId].slice(0, 100);
     }
     
-    // Save logs
+    
     localStorage.setItem(ACCESS_LOG_KEY, JSON.stringify(existingLogs));
     
     return true;
@@ -68,7 +68,7 @@ export const logNoteAccess = (noteId, action) => {
   }
 };
 
-// Get logs for a specific note
+
 export const getNoteAccessLogs = (noteId) => {
   try {
     const existingLogsJSON = localStorage.getItem(ACCESS_LOG_KEY);
@@ -82,7 +82,7 @@ export const getNoteAccessLogs = (noteId) => {
   }
 };
 
-// Clear logs for a specific note
+
 export const clearNoteAccessLogs = (noteId) => {
   try {
     const existingLogsJSON = localStorage.getItem(ACCESS_LOG_KEY);
@@ -101,7 +101,7 @@ export const clearNoteAccessLogs = (noteId) => {
   }
 };
 
-// Clear all access logs
+
 export const clearAllAccessLogs = () => {
   try {
     localStorage.removeItem(ACCESS_LOG_KEY);

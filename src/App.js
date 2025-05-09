@@ -13,7 +13,6 @@ import { logNoteAccess } from './utils/accessLogs';
 import { useTheme } from './hooks/useTheme';
 
 const App = () => {
-    // Initialize theme (this will automatically apply the saved/preferred theme)
     useTheme();
 
     const [notes, setNotes] = useLocalStorage('vaultnote-notes', []);
@@ -26,7 +25,6 @@ const App = () => {
     const [logNoteName, setLogNoteName] = useState('');
     const encryption = useEncryption();
 
-    // Check if encryption setup was previously completed
     useEffect(() => {
         const encryptionStatus = localStorage.getItem('encryption-setup');
         if (encryptionStatus === 'completed') {
@@ -34,27 +32,27 @@ const App = () => {
         }
     }, []);
 
-    // Add a useEffect to check for remembered encryption on initial load
-    // Try to auto-unlock if there's a remembered passphrase
+    
+    
     useEffect(() => {
         if (encryption.hasRememberedEncryption() && !encryption.key) {
-            // Check if we should show a "remembered device" prompt
+            
             console.log("Found remembered encryption settings");
-            // Instead of auto-prompting, we can show a UI indicator that there's a saved passphrase
-            // The user can click the security button to enter it
+            
+            
         }
     }, [encryption]);
 
-    // Add this useEffect to detect encrypted notes that need unlocking
+    
     useEffect(() => {
-        // When selecting an encrypted note, check if we need to handle encryption
+        
         if (selectedNote && selectedNote.isEncrypted && !encryption.key) {
             console.log('Selected encrypted note without encryption key - should prompt for passphrase');
-            // The Editor component will handle showing the unlock modal
+            
         }
     }, [selectedNote]);
 
-    // Load versions when a note is selected
+    
     useEffect(() => {
         if (selectedNote) {
             const noteVersions = getVersions(selectedNote.id) || [];
@@ -63,22 +61,22 @@ const App = () => {
     }, [selectedNote]);
 
     const handleNoteSelect = (note) => {
-        // Before setting the note, check if it's encrypted and we need a passphrase
+        
         const needsPassphrase = note.isEncrypted && !encryption.key;
         
         setSelectedNote(note);
         
-        // If the note is encrypted and we don't have a key, show the passphrase modal
+        
         if (needsPassphrase) {
             console.log('Selected encrypted note without encryption key - prompting for passphrase');
             setTimeout(() => setIsPassphraseModalOpen(true), 200);
         }
         
-        // Reset any loaded versions when switching notes
+        
         if (note.id !== selectedNote?.id) {
             setVersions([]);
             
-            // Load new versions for the selected note
+            
             const noteVersions = getVersions(note.id) || [];
             setVersions(noteVersions);
         }
@@ -97,7 +95,7 @@ const App = () => {
         setNotes([newNote, ...notes]);
         setSelectedNote(newNote);
         
-        // Log note creation
+        
         logNoteAccess(newNote.id, 'created');
     };
 
@@ -133,13 +131,13 @@ const App = () => {
                 return;
             }
             
-            // If there's a selected note that's encrypted but locked, try to decrypt it now
+            
             if (selectedNote && selectedNote.isEncrypted) {
                 try {
-                    // Force a re-render of the Editor component by changing its key
+                    
                     setSelectedNote({
                         ...selectedNote,
-                        _refreshKey: Date.now() // Add a refresh key to force re-render
+                        _refreshKey: Date.now() 
                     });
                 } catch (error) {
                     console.error("Failed to decrypt note after passphrase entry", error);
@@ -253,7 +251,7 @@ const App = () => {
                                     currentContent={selectedNote.content}
                                     isEncrypted={selectedNote.isEncrypted}
                                     onRestore={(version) => {
-                                        // Handle version restore
+                                        
                                         const updatedNote = {
                                             ...selectedNote,
                                             content: version.content,

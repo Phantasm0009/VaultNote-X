@@ -11,13 +11,13 @@ const useEncryption = () => {
     const [isLocked, setIsLocked] = useState(true);
     const [rememberDevice, setRememberDevice] = useState(false);
 
-    // On mount, check for saved encryption key
+    
     useEffect(() => {
-        // Clear any previous error
+        
         setError(null);
         
         try {
-            // Check for session storage key first (current session)
+            
             const sessionData = sessionStorage.getItem(ENCRYPTION_STATUS_KEY);
             if (sessionData) {
                 const { key: storedKey } = JSON.parse(sessionData);
@@ -29,13 +29,13 @@ const useEncryption = () => {
                 }
             }
             
-            // Check for remembered device
+            
             const rememberedData = localStorage.getItem(ENCRYPTION_REMEMBER_KEY);
             if (rememberedData) {
                 const { deviceId, timestamp } = JSON.parse(rememberedData);
                 if (deviceId) {
                     setRememberDevice(true);
-                    // We found a remembered device, but user needs to enter passphrase
+                    
                     console.log("Found remembered device settings");
                 }
             }
@@ -52,17 +52,17 @@ const useEncryption = () => {
         }
 
         try {
-            // Set the key directly for current session
+            
             setKey(passphrase);
             setIsLocked(false);
             
-            // Save to session storage (current browser session only)
+            
             sessionStorage.setItem(ENCRYPTION_STATUS_KEY, JSON.stringify({
                 key: passphrase,
                 timestamp: Date.now()
             }));
             
-            // If remember is enabled, store device identifier
+            
             if (remember) {
                 const deviceId = CryptoJS.SHA256(navigator.userAgent + navigator.language + screen.width).toString();
                 
@@ -91,11 +91,11 @@ const useEncryption = () => {
         }
 
         try {
-            // Set key directly (useful for known working passphrase)
+            
             setKey(passphrase);
             setIsLocked(false);
             
-            // Save to session storage
+            
             sessionStorage.setItem(ENCRYPTION_STATUS_KEY, JSON.stringify({
                 key: passphrase,
                 timestamp: Date.now()
@@ -114,7 +114,7 @@ const useEncryption = () => {
         setIsLocked(true);
         sessionStorage.removeItem(ENCRYPTION_STATUS_KEY);
         
-        // Optionally clear remembered device too
+        
         if (rememberDevice) {
             localStorage.removeItem(ENCRYPTION_REMEMBER_KEY);
             setRememberDevice(false);
@@ -130,7 +130,7 @@ const useEncryption = () => {
         if (!note) return '';
         
         try {
-            // Use simple encryption
+            
             return encrypt(note, key);
         } catch (err) {
             console.error("Encryption error:", err);
@@ -148,26 +148,26 @@ const useEncryption = () => {
         if (!encryptedNote) return '';
         
         try {
-            // Try standard decryption first
+            
             try {
                 const result = decrypt(encryptedNote, key);
                 if (result && result.length > 0) {
                     return result;
                 }
             } catch (initialError) {
-                // If standard decryption fails, try other methods
+                
                 console.warn("Initial decryption failed, trying alternative methods");
             }
             
-            // Try multiple direct approaches with different configurations
+            
             const CryptoJS = require('crypto-js');
             const decryptionMethods = [
-                // Standard AES decrypt with UTF8 encoding
+                
                 () => {
                     const bytes = CryptoJS.AES.decrypt(encryptedNote, key);
                     return bytes.toString(CryptoJS.enc.Utf8);
                 },
-                // AES with specific options
+                
                 () => {
                     const bytes = CryptoJS.AES.decrypt(encryptedNote, key, {
                         mode: CryptoJS.mode.CBC,
@@ -175,7 +175,7 @@ const useEncryption = () => {
                     });
                     return bytes.toString(CryptoJS.enc.Utf8);
                 },
-                // Try with password as key directly
+                
                 () => {
                     const parseKey = CryptoJS.enc.Utf8.parse(key);
                     const bytes = CryptoJS.AES.decrypt(encryptedNote, parseKey, {
@@ -193,11 +193,11 @@ const useEncryption = () => {
                         return result;
                     }
                 } catch (e) {
-                    // Continue to next method
+                    
                 }
             }
             
-            // If we get here, all methods failed
+            
             throw new Error('Failed to decrypt with any method');
         } catch (err) {
             console.error("Decryption error:", err);
@@ -206,19 +206,19 @@ const useEncryption = () => {
         }
     };
 
-    // Simple function to check if text looks valid
+    
     const isValidText = (text) => {
-        // Text should have a reasonable proportion of printable characters
+        
         const printableChars = text.replace(/[^\x20-\x7E]/g, '');
         return printableChars.length > text.length * 0.7;
     };
 
-    // Test a passphrase directly on encrypted content
+    
     const tryPassphrase = (encryptedContent, testPassphrase) => {
         if (!encryptedContent || !testPassphrase) return false;
         
         try {
-            // Multiple direct approaches to test the passphrase
+            
             try {
                 const bytes = CryptoJS.AES.decrypt(encryptedContent, testPassphrase);
                 const plainText = bytes.toString(CryptoJS.enc.Utf8);

@@ -7,9 +7,9 @@ const VersionHistory = ({ versions, currentContent, isEncrypted, onRestore }) =>
     const [showDiff, setShowDiff] = useState(false);
     const [branchName, setBranchName] = useState('');
     const [showCreateBranch, setShowCreateBranch] = useState(false);
-    const [diffType, setDiffType] = useState('inline'); // 'inline' or 'split'
+    const [diffType, setDiffType] = useState('inline'); 
 
-    // Select the HEAD commit by default
+    
     useEffect(() => {
         if (versions && versions.length > 0) {
             const headVersion = versions.find(v => v.isCurrent);
@@ -44,7 +44,7 @@ const VersionHistory = ({ versions, currentContent, isEncrypted, onRestore }) =>
     const formatCommitMessage = (message) => {
         if (!message) return 'Unnamed commit';
         
-        // Split by lines if there are any
+        
         const lines = message.split('\n');
         return {
             title: lines[0],
@@ -74,7 +74,7 @@ const VersionHistory = ({ versions, currentContent, isEncrypted, onRestore }) =>
     };
     
     const handleCreateBranch = () => {
-        // This would call the createBranch function from versionControl
+        
         setShowCreateBranch(false);
         setBranchName('');
     };

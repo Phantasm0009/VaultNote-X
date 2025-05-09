@@ -3,7 +3,7 @@ import { enhancedEncrypt, enhancedDecrypt } from './enhancedEncryption';
 
 const encrypt = (data, passphrase) => {
     try {
-        // Don't error on empty data, but warn and return empty string
+        
         if (!data || data.trim() === '') {
             console.warn("Attempting to encrypt empty data");
             return "";
@@ -14,7 +14,7 @@ const encrypt = (data, passphrase) => {
             throw new Error("Passphrase is required");
         }
         
-        // Use the enhanced encryption method for better security and reliability
+        
         return enhancedEncrypt(data, passphrase);
     } catch (error) {
         console.error("Encryption failed:", error);
@@ -34,7 +34,7 @@ const decrypt = (ciphertext, passphrase) => {
             throw new Error("Passphrase is required");
         }
         
-        // Use the enhanced decryption method with multiple fallbacks
+        
         return enhancedDecrypt(ciphertext, passphrase);
     } catch (error) {
         console.error("Decryption failed:", error);
@@ -42,7 +42,7 @@ const decrypt = (ciphertext, passphrase) => {
     }
 };
 
-// Helper function to check if text is valid
+
 function isValidUTF8(str) {
   try {
     return (new TextEncoder().encode(str)).length > 0;
@@ -60,7 +60,7 @@ const decryptNote = (note, passphrase) => {
 };
 
 const generateKeyPair = async (passphrase) => {
-    // This is a simplified implementation - in a real app you'd use proper asymmetric crypto
+    
     const publicKey = CryptoJS.SHA256(passphrase + "-public").toString();
     const privateKey = CryptoJS.SHA256(passphrase + "-private").toString();
     
@@ -70,7 +70,7 @@ const generateKeyPair = async (passphrase) => {
     };
 };
 
-// For debugging encryption issues
+
 const debugEncryptionInfo = (encryptedData) => {
   if (!encryptedData) {
     return {
@@ -88,7 +88,7 @@ const debugEncryptionInfo = (encryptedData) => {
     JSON.parse(encryptedData);
     isJSON = true;
   } catch (e) {
-    // Not JSON
+    
   }
   
   const isBase64 = /^[A-Za-z0-9+/=]+$/.test(encryptedData);
@@ -103,7 +103,7 @@ const debugEncryptionInfo = (encryptedData) => {
   };
 };
 
-// Direct decryption test function
+
 const testPassphrase = (ciphertext, passphrase) => {
   try {
     const result = decrypt(ciphertext, passphrase);

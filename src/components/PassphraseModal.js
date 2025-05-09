@@ -10,14 +10,14 @@ const PassphraseModal = ({ isOpen, onClose, onSubmit }) => {
     const [strengthResult, setStrengthResult] = useState({ strength: 'Weak', criteriaMet: 0 });
     const [showPassword, setShowPassword] = useState(false);
     
-    // Reset state when modal is opened
+    
     useEffect(() => {
         if (isOpen) {
             setPassphrase('');
             setConfirmPassphrase('');
             setError('');
             setShowPassword(false);
-            // Keep the remember device preference
+            
         }
     }, [isOpen]);
 
@@ -35,7 +35,7 @@ const PassphraseModal = ({ isOpen, onClose, onSubmit }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        // For existing notes where we're just unlocking, don't check strength
+        
         if (!confirmPassphrase && passphrase) {
             onSubmit(passphrase, rememberDevice);
             return;

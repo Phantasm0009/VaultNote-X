@@ -31,7 +31,7 @@ const AccessLogs = ({ noteId, noteName }) => {
     }
   };
 
-  // Filter logs based on selected filter
+  
   const filteredLogs = filter === 'all' 
     ? logs 
     : logs.filter(log => log.action === filter);

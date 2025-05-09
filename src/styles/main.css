@@ -1,6 +1,6 @@
-/* Theme System - Consolidated Variables */
+
 :root {
-  /* Light Theme (Default) */
+ 
   --primary-color: #4a90e2;
   --primary-light: #6ba5e9;
   --primary-dark: #2c6cb0;
@@ -11,19 +11,19 @@
   --light-color: #f8f9fa;
   --dark-color: #343a40;
   
-  /* Background colors */
+ 
   --body-bg: #f0f2f5;
   --card-bg: #ffffff;
   --card-bg-secondary: #f8fafc;
   --header-bg: #ffffff;
   --sidebar-bg: #f8f9fa;
   
-  /* Text colors */
+ 
   --text-color: #333333;
   --text-color-secondary: #6c757d;
   --text-color-muted: #a0aec0;
   
-  /* UI elements */
+ 
   --border-color: rgba(0, 0, 0, 0.1);
   --accent-color: #7e57c2;
   --input-bg: #ffffff;
@@ -31,7 +31,7 @@
   --input-text: #333333;
   --hover-bg: rgba(0, 0, 0, 0.02);
   
-  /* Components */
+ 
   --table-header-bg: #f1f5f9;
   --table-row-hover: rgba(0, 0, 0, 0.04);
   --modal-bg: #ffffff;
@@ -41,25 +41,25 @@
   --tooltip-bg: #333333;
   --tooltip-text: #ffffff;
   
-  /* Status indicators */
+ 
   --status-saved: #38b2ac;
   --status-editing: #f6993f;
   --status-committed: #4a90e2;
   --status-encrypted: #9f7aea;
   
-  /* Log badge colors */
+ 
   --color-viewed: #4a90e2;
   --color-modified: #f6993f;
   --color-created: #38b2ac;
   --color-encrypted: #7e57c2;
   --color-decrypted: #38b2ac;
   
-  /* Note list */
+ 
   --note-active-bg: rgba(74, 144, 226, 0.1);
   --note-hover-bg: rgba(0, 0, 0, 0.02);
   --note-border: #e2e8f0;
   
-  /* Version history */
+ 
   --commit-dot-bg: #4a90e2;
   --commit-line-bg: #cbd5e0;
   --commit-active-bg: rgba(74, 144, 226, 0.15);
@@ -68,16 +68,16 @@
   --diff-removed-bg: rgba(220, 53, 69, 0.1);
   --diff-removed-text: #dc3545;
 
-  /* UI Constants */
+ 
   --border-radius: 8px;
   --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   --box-shadow-hover: 0 5px 15px rgba(0, 0, 0, 0.12);
   --transition: all 0.25s ease;
 }
 
-/* Dark Theme Variables */
+
 .dark-theme {
-  /* Primary colors */
+ 
   --primary-color: #4a90e2;
   --primary-light: #79b9ff;
   --primary-dark: #3a80d2;
@@ -88,19 +88,19 @@
   --light-color: #2d3748;
   --dark-color: #f7fafc;
   
-  /* Background colors */
+ 
   --body-bg: #1a202c;
   --card-bg: #2d3748;
   --card-bg-secondary: #222a38;
   --header-bg: #1a202c;
   --sidebar-bg: #2d3748;
   
-  /* Text colors */
+ 
   --text-color: #f7fafc;
   --text-color-secondary: #cbd5e0;
   --text-color-muted: #718096;
   
-  /* UI elements */
+ 
   --border-color: rgba(255, 255, 255, 0.1);
   --accent-color: #9f7aea;
   --input-bg: #1a202c;
@@ -108,7 +108,7 @@
   --input-text: #e2e8f0;
   --hover-bg: rgba(255, 255, 255, 0.05);
   
-  /* Components */
+ 
   --table-header-bg: #1a202c;
   --table-row-hover: rgba(255, 255, 255, 0.05);
   --modal-bg: #2d3748;
@@ -118,25 +118,25 @@
   --tooltip-bg: #e2e8f0;
   --tooltip-text: #1a202c;
   
-  /* Status indicators */
+ 
   --status-saved: #38b2ac;
   --status-editing: #ed8936;
   --status-committed: #63b3ed;
   --status-encrypted: #b794f4;
   
-  /* Log badge colors */
+ 
   --color-viewed: #79b9ff;
   --color-modified: #ffc180;
   --color-created: #6fe2dc;
   --color-encrypted: #b191ec;
   --color-decrypted: #6fe2dc;
   
-  /* Note list */
+ 
   --note-active-bg: rgba(74, 144, 226, 0.2);
   --note-hover-bg: rgba(255, 255, 255, 0.05);
   --note-border: #4a5568;
   
-  /* Version history */
+ 
   --commit-dot-bg: #63b3ed;
   --commit-line-bg: #4a5568;
   --commit-active-bg: rgba(74, 144, 226, 0.3);
@@ -146,7 +146,7 @@
   --diff-removed-text: #feb2b2;
 }
 
-/* Theme toggle styles */
+
 .theme-toggle {
   position: relative;
   width: 56px;
@@ -194,7 +194,7 @@
   font-size: 12px;
 }
 
-/* Base styles with theme variables */
+
 body {
   font-family: var(--font-body, 'Open Sans', 'Arial', sans-serif);
   background-color: var(--body-bg);
@@ -211,7 +211,7 @@ body {
   flex-direction: column;
 }
 
-/* Header Styles */
+
 .header {
   background-color: var(--header-bg);
   border-bottom: 1px solid var(--border-color);
@@ -236,7 +236,7 @@ body {
   gap: 8px;
 }
 
-/* Card Component */
+
 .card {
   background-color: var(--card-bg);
   border-radius: var(--border-radius);
@@ -256,7 +256,7 @@ body {
   background-color: var(--card-bg-secondary);
 }
 
-/* Note List */
+
 .note-list {
   background-color: var(--card-bg);
   border-radius: var(--border-radius);
@@ -334,7 +334,7 @@ body {
   margin-right: 4px;
 }
 
-/* Editor */
+
 .editor {
   height: 100%;
   display: flex;
@@ -428,7 +428,7 @@ body {
   color: var(--status-encrypted);
 }
 
-/* Button Styles */
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -526,7 +526,7 @@ body {
   pointer-events: none;
 }
 
-/* Form Controls */
+
 .form-control, input, textarea, select {
   padding: 8px 12px;
   border-radius: var(--border-radius);
@@ -556,7 +556,7 @@ body {
   font-size: 0.9rem;
 }
 
-/* Access Logs Styles */
+
 .access-logs {
   display: flex;
   flex-direction: column;
@@ -739,7 +739,7 @@ body {
   opacity: 0.6;
 }
 
-/* Modal styling */
+
 .modal {
   position: fixed;
   top: 0;
@@ -805,7 +805,7 @@ body {
   background-color: var(--modal-footer-bg);
 }
 
-/* Version control */
+
 .version-history {
   height: 100%;
   background-color: var(--card-bg);
@@ -841,7 +841,7 @@ body {
 
 .commit-info {
   flex: 1;
-  min-width: 0; /* Ensures flex items can shrink below content width */
+  min-width: 0;
 }
 
 .commit-message {
@@ -855,8 +855,8 @@ body {
 
 .commit-message-text {
   font-weight: 500;
-  word-break: break-word; /* Allow breaking words */
-  overflow-wrap: break-word; /* Ensure text wraps rather than overflows */
+  word-break: break-word;
+  overflow-wrap: break-word;
   flex: 1;
   min-width: 0;
 }
@@ -911,7 +911,7 @@ body {
   background-color: var(--commit-active-bg);
 }
 
-/* Diff panel */
+
 .diff-added {
   background-color: var(--diff-added-bg);
   color: var(--diff-added-text);
@@ -927,7 +927,7 @@ body {
   text-decoration: line-through;
 }
 
-/* Encrypted content */
+
 .encrypted-content {
   display: flex;
   flex-direction: column;
@@ -948,7 +948,7 @@ body {
   animation: pulse 1.5s infinite;
 }
 
-/* Animations */
+
 @keyframes slideIn {
   from { transform: translateY(-20px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
@@ -965,7 +965,7 @@ body {
   100% { box-shadow: 0 0 0 0 rgba(74, 144, 226, 0); }
 }
 
-/* Responsive layout */
+
 .app-grid {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;

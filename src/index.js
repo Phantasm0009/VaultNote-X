@@ -11,5 +11,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-// Register the service worker for offline capabilities
 serviceWorker.register();

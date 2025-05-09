@@ -15,9 +15,9 @@ const Editor = ({
     encryption,
     onSave,
     onDelete,
-    onShowLogs  // Add this new prop
+    onShowLogs  
 }) => {
-    // All state and ref declarations at the top level
+    
     const [title, setTitle] = useState(initialTitle);
     const [content, setContent] = useState('');
     const [encrypted, setEncrypted] = useState(isEncrypted);
@@ -44,14 +44,14 @@ const Editor = ({
     const isMountedRef = useRef(true);
     const modalShownRef = useRef(false);
 
-    // Debounced content for version history
+    
     let debouncedContent;
     try {
-        // Directly use the hook result if available
+        
         debouncedContent = useDebounce(content, 800);
     } catch (e) {
         console.warn('useDebounce hook failed, using non-debounced content', e);
-        debouncedContent = content; // Fallback to non-debounced content
+        debouncedContent = content; 
     }
 
     const decryptWithFallbacks = (encryptedContent, key) => {
@@ -59,12 +59,12 @@ const Editor = ({
   
         console.log("Attempting decryption with fallbacks...");
         
-        // Try multiple decryption approaches in case format has changed
+        
         try {
-            // Try using the CryptoJS library directly with multiple configurations
+            
             const CryptoJS = require('crypto-js');
             
-            // Standard AES decryption 
+            
             try {
                 console.log("Trying standard AES...");
                 const bytes = CryptoJS.AES.decrypt(encryptedContent, key);
@@ -74,7 +74,7 @@ const Editor = ({
                 console.warn("Standard AES failed:", e.message);
             }
             
-            // Try to parse as JSON (for enhanced encryption)
+            
             try {
                 console.log("Trying JSON format...");
                 const jsonData = JSON.parse(encryptedContent);
@@ -91,7 +91,7 @@ const Editor = ({
                 console.warn("JSON format failed:", e.message);
             }
             
-            // Try different modes and configurations
+            
             const configs = [
                 { mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 },
                 { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 },
@@ -111,7 +111,7 @@ const Editor = ({
                 }
                 
                 try {
-                    // Also try with parsed key
+                    
                     const parsedKey = CryptoJS.enc.Utf8.parse(key);
                     const bytes = CryptoJS.AES.decrypt(encryptedContent, parsedKey, config);
                     const decrypted = bytes.toString(CryptoJS.enc.Utf8);
@@ -121,7 +121,7 @@ const Editor = ({
                 }
             }
             
-            // Last resort: Try Base64 decoding if it looks like Base64
+            
             if (/^[A-Za-z0-9+/=]+$/.test(encryptedContent)) {
                 try {
                     const decoded = atob(encryptedContent);
@@ -139,13 +139,13 @@ const Editor = ({
         return null;
     };
 
-    // Add this effect to handle mounting/unmounting
+    
     useEffect(() => {
-        // Set to mounted
+        
         isMountedRef.current = true;
         modalShownRef.current = false;
         
-        // Cleanup when unmounting
+        
         return () => {
             isMountedRef.current = false;
             modalShownRef.current = false;
@@ -162,7 +162,7 @@ const Editor = ({
         setTitle(initialTitle);
         setEncrypted(isEncrypted);
         
-        // Handle content
+        
         if (!initialContent) {
             setContent('');
             setIsLocked(false);
@@ -170,12 +170,12 @@ const Editor = ({
             return;
         }
         
-        // If it's encrypted, always check and show the unlock modal if needed
+        
         if (isEncrypted) {
-            // ALWAYS set locked state first for encrypted notes
+            
             setIsLocked(true);
             
-            // Only try to auto-decrypt if we have an encryption key
+            
             if (encryption.key) {
                 try {
                     console.log("Attempting to decrypt note with stored key");
@@ -199,30 +199,30 @@ const Editor = ({
                 setTimeout(() => setShowUnlockModal(true), 100);
             }
         } else {
-            // Not encrypted, just set the content
+            
             setContent(initialContent);
             setLastContent(initialContent);
             setIsLocked(false);
         }
     }, [noteId, initialTitle, initialContent, isEncrypted, encryption]);
 
-    // Replace the useEffect that handles showing the unlock modal
+    
     useEffect(() => {
-        // Only run this effect when note ID or encryption status changes
+        
         if (isEncrypted) {
-            // Always set the initial locked state for encrypted notes
+            
             setIsLocked(true);
             
-            // Only try to decrypt if we haven't already attempted it for this note
+            
             if (!initialDecryptAttempted) {
                 setInitialDecryptAttempted(true);
                 
-                // If we have a key, try to decrypt automatically
+                
                 if (encryption.key) {
                     try {
                         console.log("Attempting to decrypt note with stored key");
                         
-                        // Try to decrypt directly with our simple method
+                        
                         if (isCorrectPassphrase(initialContent, encryption.key)) {
                             const decryptedContent = decrypt(initialContent, encryption.key);
                             
@@ -234,7 +234,7 @@ const Editor = ({
                             } else {
                                 console.log("Auto-decryption failed - showing unlock modal");
                                 
-                                // Show the unlock modal only if it hasn't been shown yet
+                                
                                 if (!modalShownRef.current) {
                                     modalShownRef.current = true;
                                     setTimeout(() => {
@@ -247,7 +247,7 @@ const Editor = ({
                         } else {
                             console.log("Passphrase verification failed - showing unlock modal");
                             
-                            // Show the unlock modal only if it hasn't been shown yet
+                            
                             if (!modalShownRef.current) {
                                 modalShownRef.current = true;
                                 setTimeout(() => {
@@ -260,7 +260,7 @@ const Editor = ({
                     } catch (error) {
                         console.error("Failed to decrypt note:", error);
                         
-                        // Show the unlock modal only if it hasn't been shown yet
+                        
                         if (!modalShownRef.current) {
                             modalShownRef.current = true;
                             setTimeout(() => {
@@ -273,7 +273,7 @@ const Editor = ({
                 } else {
                     console.log("No encryption key available - showing unlock modal");
                     
-                    // Show the unlock modal only if it hasn't been shown yet
+                    
                     if (!modalShownRef.current) {
                         modalShownRef.current = true;
                         setTimeout(() => {
@@ -285,7 +285,7 @@ const Editor = ({
                 }
             }
         } else {
-            // Not encrypted, reset states
+            
             setIsLocked(false);
             setContent(initialContent);
             setLastContent(initialContent);
@@ -294,25 +294,25 @@ const Editor = ({
         }
         
         return () => {
-            // Reset the flag when note changes
+            
             modalShownRef.current = false;
         };
     }, [noteId, isEncrypted, initialContent, encryption.key, initialDecryptAttempted]);
 
-    // Add a cleanup effect to reset the flag when note changes
+    
     useEffect(() => {
-        // Reset the flag when note changes
+        
         return () => {
             setInitialDecryptAttempted(false);
         };
     }, [noteId]);
 
     useEffect(() => {
-        // Focus on textarea when a note is selected and not locked
+        
         if (!isLocked) {
-            // Delay focusing to prevent issues with modals
+            
             setTimeout(() => {
-                // Check both mounted state and ref existence
+                
                 if (isMountedRef.current && textAreaRef.current) {
                     try {
                         textAreaRef.current.focus();
@@ -323,7 +323,7 @@ const Editor = ({
             }, 200);
         }
         
-        // Cancel any existing auto-save timers when unmounting
+        
         return () => {
             if (autoSaveTimer) {
                 clearTimeout(autoSaveTimer);
@@ -332,11 +332,11 @@ const Editor = ({
     }, [noteId, isLocked]);
 
     useEffect(() => {
-        // Only save when the user has explicitly clicked the "Save" or "Commit" buttons
-        // We'll remove the automatic popup trigger here
+        
+        
         if (debouncedContent && debouncedContent !== lastContent) {
             setSaveStatus('editing');
-            // Do not auto-save or show popups here - require explicit user action
+            
         }
     }, [debouncedContent, noteId, isLocked, encrypted, encryption, lastContent]);
 
@@ -346,34 +346,34 @@ const Editor = ({
 
     const handleContentChange = (e) => {
         setContent(e.target.value);
-        // Remove the scheduleAutoSave() call to prevent auto-save popups
-        // Just update the status without scheduling saves
+        
+        
         setSaveStatus('editing');
     };
 
     const scheduleAutoSave = () => {
         setSaveStatus('editing');
         
-        // Clear any existing auto-save timer
+        
         if (autoSaveTimer) {
             clearTimeout(autoSaveTimer);
         }
         
-        // We'll keep the status update but not trigger auto-save or popups
-        // Just provide visual feedback that there are unsaved changes
+        
+        
     };
 
     const handleSave = () => {
         if (content === lastContent) {
-            // No changes to save, just return
+            
             return;
         }
         
         try {
-            // Process content for saving
+            
             let contentToSave = content;
             
-            // If encryption is enabled and we have a key, encrypt the content
+            
             if (encrypted && encryption.key) {
                 try {
                     contentToSave = encryption.encryptNote(content);
@@ -387,18 +387,18 @@ const Editor = ({
                 }
             }
             
-            // Save explicit version for manual saves
+            
             try {
                 saveVersion(noteId, contentToSave);
             } catch (error) {
                 console.error("Failed to save version:", error);
-                // Continue with saving even if version fails
+                
             }
             
-            // Update tracking state
+            
             setLastContent(content);
             
-            // Save the note with updated content
+            
             onSave({
                 title,
                 content: contentToSave,
@@ -407,7 +407,7 @@ const Editor = ({
             });
 
             if (noteId) {
-                // Log the modification
+                
                 logNoteAccess(noteId, 'modified');
             }
             
@@ -429,10 +429,10 @@ const Editor = ({
         
         setIsCommitting(true);
         
-        // Process content for saving with commit message
+        
         let contentToSave = content;
         
-        // If encryption is enabled and we have a key, encrypt the content
+        
         if (encrypted && encryption.key) {
             try {
                 contentToSave = encryption.encryptNote(content);
@@ -447,7 +447,7 @@ const Editor = ({
             }
         }
         
-        // Save version with explicit commit message
+        
         try {
             const versionId = saveVersion(noteId, contentToSave, commitMessage);
             if (versionId) {
@@ -456,7 +456,7 @@ const Editor = ({
                 setShowCommitModal(false);
                 setIsCommitting(false);
                 
-                // Also save the current state of the note
+                
                 onSave({
                     title,
                     content: contentToSave,
@@ -478,13 +478,13 @@ const Editor = ({
 
     const toggleEncryption = () => {
         if (!encrypted) {
-            // Show the passphrase modal for new encryption
+            
             setShowPassphraseModal(true);
             logNoteAccess(noteId, 'encrypted');
             return;
         } else {
             logNoteAccess(noteId, 'decrypted');
-            // ...existing code for disabling encryption...
+            
         }
     };
 
@@ -492,19 +492,19 @@ const Editor = ({
         if (!passphrase) return;
 
         try {
-            // Set the encryption key
+            
             encryption.generateKey(passphrase, rememberDevice);
             
-            // Update UI state
+            
             setEncrypted(true);
             setShowPassphraseModal(false);
             
-            // Encrypt and save the content if it exists
+            
             if (content && content.trim() !== '') {
-                // Use the simple encryption method
+                
                 const encryptedContent = encrypt(content, passphrase);
                 
-                // Save the encrypted note
+                
                 onSave({
                     title,
                     content: encryptedContent,
@@ -516,7 +516,7 @@ const Editor = ({
                 showNotification('Note encrypted successfully', 'success');
                 setTimeout(() => setSaveStatus(''), 2000);
             } else {
-                // Handle empty notes
+                
                 onSave({
                     title,
                     content: '',
@@ -543,20 +543,20 @@ const Editor = ({
         setUnlocking(true);
         setUnlockError('');
         
-        // Small delay to show loading UI
+        
         setTimeout(() => {
             try {
                 console.log("Starting unlock process...");
                 
-                // Set the key first
+                
                 encryption.writeEncryptionKey(passphrase);
                 
-                // Debug the content we're trying to decrypt
+                
                 console.log(`Content length to decrypt: ${initialContent.length}`);
                 
-                // First, try to decrypt using direct method from the simpleEncryption utility
+                
                 try {
-                    // Import directly to avoid any potential issues
+                    
                     const { decrypt } = require('../utils/simpleEncryption');
                     const directDecrypted = decrypt(initialContent, passphrase);
                     
@@ -566,13 +566,13 @@ const Editor = ({
                         setIsLocked(false);
                         setShowUnlockModal(false);
                         showNotification('Note unlocked successfully', 'success');
-                        return; // Exit early if successful
+                        return; 
                     }
                 } catch (directError) {
                     console.warn("Direct decryption failed:", directError);
                 }
                 
-                // Then try all fallback methods
+                
                 const decrypted = decryptWithFallbacks(initialContent, passphrase);
                 
                 if (decrypted) {
@@ -584,12 +584,12 @@ const Editor = ({
                 } else {
                     console.error("All decryption attempts failed");
                     setUnlockError('Incorrect passphrase. Please try again.');
-                    encryption.clearKey(); // Clear the incorrect key
+                    encryption.clearKey(); 
                 }
             } catch (error) {
                 console.error('Error unlocking note:', error);
                 setUnlockError('Failed to decrypt note. Please check your passphrase.');
-                encryption.clearKey(); // Clear the incorrect key
+                encryption.clearKey(); 
             } finally {
                 setUnlocking(false);
             }

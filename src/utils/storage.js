@@ -15,13 +15,13 @@ export const clearNotes = () => {
     localStorage.removeItem(STORAGE_KEY);
 };
 
-// Add the missing functions
+
 export const saveNote = (noteId, noteData) => {
     const notes = getNotes();
     const timestamp = new Date().toISOString();
     
     if (noteId) {
-        // Update existing note
+        
         const noteIndex = notes.findIndex(note => note.id === noteId);
         if (noteIndex !== -1) {
             notes[noteIndex] = { 
@@ -31,7 +31,7 @@ export const saveNote = (noteId, noteData) => {
             };
         }
     } else {
-        // Create new note with unique ID
+        
         const newNote = {
             id: Date.now().toString(),
             title: noteData.title || 'Untitled Note',
