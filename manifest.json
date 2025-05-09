@@ -1,0 +1,17 @@
+{
+  "name": "VaultNote X",
+  "short_name": "VaultNote",
+  "description": "An offline encrypted note system with version history.",
+  "start_url": "/vaultnote-x/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4a90e2",
+  "icons": [
+    {
+      "src": "./images/icon-192x19x.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "orientation": "portrait"
+}

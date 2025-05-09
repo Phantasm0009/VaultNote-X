@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="100" height="100">
+  <!-- Outer blue outline -->
+  <path d="M12 2L4 5v6c0 5.25 3.75 10.75 8 12 4.25-1.25 8-6.75 8-12V5l-8-3z" fill="#4299e1" />
+  <!-- Inner part - left blue -->
+  <path d="M12 4.5L6 6.75v4.5c0 4.25 3 8.75 6 10V4.5z" fill="#3182ce" />
+  <!-- Inner part - right white -->
+  <path d="M12 4.5L18 6.75v4.5c0 4.25-3 8.75-6 10V4.5z" fill="#ffffff" />
+</svg>
